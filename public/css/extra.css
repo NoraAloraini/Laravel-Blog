@@ -1,0 +1,56 @@
+.comments {
+    margin-bottom: 50px;
+}
+
+.comments li {
+    margin-left: 10px;
+    padding: 10px 0 10px 0;
+}
+
+.comments li {
+    list-style: none;
+    border-bottom: 1px solid #efefef;
+}
+
+.comments p  {
+    margin-bottom: 10px;
+        color: black;
+
+}
+.comments h4  {
+    margin-bottom: 10px;
+    color: black;
+    text-align : right; 
+    font-size: 13px;
+
+}
+
+.projectTitle {
+
+	font-size: 35px; 
+    padding: 10px 60px 10px 60px;
+    }
+
+
+.flex-container {
+/*display: flex;
+*/  flex-flow: row wrap;
+justify-content: center;
+
+*/}
+
+/* Style the  cards */
+.article-card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);  
+  display: inline-flex;
+  width: 35%;
+  padding: 33px;
+  margin: 4%;
+ text-align: left;
+ background-color: #f1f1f1;
+}
+
+
+}
+
+
