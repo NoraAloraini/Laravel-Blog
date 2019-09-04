@@ -35,8 +35,8 @@
         </p>
 
 			<hr>
-			<p class="fa fa-comment"> {{ $article -> comments ->count()}} Comments</p>
-			<p >Author: {{ $article -> owner -> name  }}</p>				<br>
+			<p class="fa fa-comment"> {{ $article -> comments_count }} Comments</p>
+			<p >Author: {{ $article -> user -> name  }}</p>				<br>
 
 			@foreach ($article ->tags as $tag )
 			

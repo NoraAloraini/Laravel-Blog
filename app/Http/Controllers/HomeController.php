@@ -28,7 +28,7 @@ class HomeController extends Controller
 
 
 
-    $articles = Article::where('owner_id', auth()->id())->get();
+    $articles = Article::with('comments','tags','user')->where('user_id', auth()->id())->get();
 
         return view('home', compact('articles'));
     }

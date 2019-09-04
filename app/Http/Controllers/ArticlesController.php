@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Article;
 use App\Tag;
+use App\Http\Requests\StoreArticleRequest;
+
 
 
 class ArticlesController extends Controller
@@ -25,7 +27,7 @@ class ArticlesController extends Controller
    {
 
 
-   	$articles = Article::paginate(10);
+   	$articles = Article::with('comments','tags', 'user')->withCount('comments')->paginate(10);
 
    	return view('articles.index', compact('articles'));
    }
@@ -35,6 +37,9 @@ class ArticlesController extends Controller
       public function show(Article $article)
 
    {
+
+
+      $article->load('comments');
 
          // View count for article 
       $blogKey = 'blog_' . $article->id;
@@ -53,30 +58,30 @@ class ArticlesController extends Controller
    {
 
 
-      $tags = Tag::all();
+      $tags = Tag::cursor();
+
    	return view('articles.create',compact('tags'));
    }
 
 
-      public function store()
+      public function store(StoreArticleRequest $request)
 
    {
 
+      $article = $request->user()->article()->create([
+         'title' => $request->title,
+         'content' => $request->content
 
-      $attributes = $this->validateArticle();
+      ]);
 
-      $attributes['view_count'] = 0;
-
-      $attributes['owner_id'] = auth()->id();
-
-      $article = Article::create($attributes);
+      $tags = collect(explode(',',$request->tag))->map(function($tag){
+         return Tag::firstOrCreate(['tag'=>$tag])->id;
+      })->toArray();
 
       $article -> tags()->sync(request()->tags);
 
-      // dd($article);
-
       
-   	return redirect('/home');
+   	return redirect()->route('home');
 
 
 
@@ -87,10 +92,9 @@ class ArticlesController extends Controller
 
    {
 
-      $tags = Tag::all();
+      $tags = Tag::cursor();
 
-      abort_if($article->owner_id !== auth()->id(), 403);
-
+      $this->authorize('update',$article);
       return view('articles.edit', compact('article','tags'));
 
 
@@ -102,7 +106,7 @@ class ArticlesController extends Controller
    {
 
 
-      abort_if($article->owner_id !== auth()->id(), 403);
+      $this->authorize('update',$article);
 
       $article->update($this->validateArticle());
       $article -> tags()->sync(request()->tags);
@@ -110,7 +114,7 @@ class ArticlesController extends Controller
    
 
 
-      return redirect('/home');
+            return redirect()->route('home')->with('success', 'Login Successfully!');
 
 
 
@@ -121,33 +125,27 @@ class ArticlesController extends Controller
 
    {
 
+      $this->authorize('delete',$article);
+
       $article->delete();
 
-      abort_if($article->owner_id !== auth()->id(), 403);
 
     
 
-      return redirect('/home');
+      return redirect()->route('home');
 
 
 
    }
 
-        
+
       /**** Function of Vaidation ****/
-
       protected function validateArticle(){
-
-
          return request()->validate([
-
             'title' => 'required|min:3',
             'content' => 'required|min:3',
-
                      ]);
-
                }
-
 
     
 

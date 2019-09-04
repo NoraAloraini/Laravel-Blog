@@ -3,13 +3,19 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Events\NewCommentCreated;
+
 
 class Comment extends Model
 {
 
     protected $guarded = [];
 
+    protected $dispatchesEvents = [
 
+        'created' => NewCommentCreated::class
+    ];
+    
 
 
 
@@ -21,7 +27,7 @@ class Comment extends Model
 
         }
 
-   	public function owner()
+   	public function user()
     
         {
     

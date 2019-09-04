@@ -14,7 +14,8 @@ class Article extends Model
 
 
 
-	public function owner()
+
+	public function user()
     
         {
     

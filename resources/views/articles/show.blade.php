@@ -8,6 +8,8 @@
 
    <h1 class="projectTitle" >Article Title:   {{ $article->title }}</h1>
 
+               <a class="btn btn-info btn-sm" href="/articles/{{$article->id }}/edit"> Edit Article</a>
+
    <div style="margin:55px; " > 
 
 		<p class="content" style="font-size: 20px;">{{$article->content}}</p>
@@ -40,7 +42,7 @@
 				<div class="clearfix">
 
 					<h4>{{$comment-> created_at ->format(' F d,Y ')}}</h4>
-					<p> {{$comment-> owner->name}}  </p>
+					<p> {{$comment-> user->name}}  </p>
 					<p>  </p>
 
 				</div>

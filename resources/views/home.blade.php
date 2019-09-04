@@ -11,7 +11,7 @@
 </div>
     <div class="card" >
 
-            {{-- Show all articles that belongs to owner --}}
+            {{-- Show all articles that belongs to user --}}
 
     <div class="flex-container"style="margin-bottom: 25px;" >
 
@@ -42,7 +42,7 @@
             <p class="fa fa-comment"> {{ $article -> comments ->count()}} Comments</p>
 
                 {{-- Author --}}
-            <p >Author: {{ $article -> owner -> name  }}</p>                <br>
+            <p >Author: {{ $article -> user -> name  }}</p>                <br>
 
 
                 {{-- loop of tags --}}
